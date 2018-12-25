@@ -4,3 +4,4 @@ for i in IMG_3[0-4]*.JPG ; do convert -quality 60 -geometry 300 "$i" "thumbs/$i"
 rsync -a -delete empty/ foo/ # Apparently the fastest way to delete millions of small files
 vim scp://user@server1//etc/httpd/httpd.conf 
 pv bigdump.sql.gz | gunzip | mysql
+ps aux | awk '{if ($8=="Z") { print $2 }}' 
