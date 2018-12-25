@@ -6,3 +6,4 @@ vim scp://user@server1//etc/httpd/httpd.conf
 pv bigdump.sql.gz | gunzip | mysql
 ps aux | awk '{if ($8=="Z") { print $2 }}' 
 cat longdomainlist.txt | rev | sort | rev 
+lsof -Pan -i tcp -i udp
