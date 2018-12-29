@@ -8,3 +8,4 @@ ps aux | awk '{if ($8=="Z") { print $2 }}'
 cat longdomainlist.txt | rev | sort | rev 
 lsof -Pan -i tcp -i udp
 while [[ $(date +%Y) -ne 2019 ]];do figlet $(($(date -d 2019-01-01 +%s)-$(date +%s)));sleep 1;clear;done;figlet 'Happy New Year!' #countdown
+rename 's/ /_/g' *
