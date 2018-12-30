@@ -10,3 +10,6 @@ lsof -Pan -i tcp -i udp
 while [[ $(date +%Y) -ne 2019 ]];do figlet $(($(date -d 2019-01-01 +%s)-$(date +%s)));sleep 1;clear;done;figlet 'Happy New Year!' #countdown
 rename 's/ /_/g' *
 curl -s http://artscene.textfiles\.com/vt100/globe.vt | pv -L9600 -q
+printf "%080d" | tr 0 n
+perl -e 'print "n" x 80'
+
