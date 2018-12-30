@@ -12,4 +12,4 @@ rename 's/ /_/g' *
 curl -s http://artscene.textfiles\.com/vt100/globe.vt | pv -L9600 -q
 printf "%080d" | tr 0 n
 perl -e 'print "n" x 80'
-
+sudo dd if=/dev/sdc bs=1M skip=25k | strings -n12 # Start searching for text data, but skip the first 25GB (25k of 1MB blocks) of the drive.
