@@ -1,0 +1,14 @@
+apply plugin: 'java'
+
+def ascendingSort(){
+	def arrayBox = [ 3, 1, 5, 4 ];
+	def sortBox = arrayBox.sort();
+	def lower = -1;
+		for ( int i = 0; i < arrayBox.size(); i++){
+			println sortBox.get(i)
+		}
+	}
+
+task getSort(){
+	ascendingSort();
+}
