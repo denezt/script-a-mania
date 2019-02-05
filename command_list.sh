@@ -15,3 +15,6 @@ perl -e 'print "n" x 80' # Makes a Row of 'n' chars
 sudo dd if=/dev/sdc bs=1M skip=25k | strings -n12 # Start searching for text data, but skip the first 25GB (25k of 1MB blocks) of the drive.
 echo "0987654321abcdefghijklmnopqrstuvwxyz" | sed 's/.\{4\}/& /g'
 history | tr -cs "[:alpha:]" "\n" | sort | uniq -c | sort -rn | head
+apt-get -y install language-pack-en-base
+locale --all
+locale-gen en_US.UTF-8
