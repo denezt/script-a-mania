@@ -1,0 +1,12 @@
+# Hidden Files
+._*
+
+# Temporary Directory
+tmp/**
+
+# Gradle Files
+.gradle/**
+.gradlew
+
+
+
