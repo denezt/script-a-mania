@@ -20,3 +20,5 @@ locale --all
 locale-gen en_US.UTF-8
 python3 -c 'import wx; a=wx.App(); wx.Frame(None, title="wxPython Frame").Show(); a.MainLoop()'
 printf "192.168.0.1" | tr '.' ' ' | awk '{printf $4 }'
+#Grepping for MAC addresses:
+grep -E -o '[[:xdigit:]]{2}(:[[:xdigit:]]{2}){5}' filename
