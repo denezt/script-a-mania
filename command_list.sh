@@ -22,3 +22,17 @@ python3 -c 'import wx; a=wx.App(); wx.Frame(None, title="wxPython Frame").Show()
 printf "192.168.0.1" | tr '.' ' ' | awk '{printf $4 }'
 #Grepping for MAC addresses:
 grep -E -o '[[:xdigit:]]{2}(:[[:xdigit:]]{2}){5}' filename
+# Making file immutable
+sudo chattr +i /mydirectory/myfile
+sudo chattr +i -V /mydirectory/myfile
+lsattr /mydirectory/myfile
+# Removing file immutable status
+sudo chattr -i /mydirectory/myfile
+sudo chattr -i -V /mydirectory/myfile
+lsattr /mydirectory/myfile
+# Making files immutable (Recursively)
+sudo chattr +i -RV /mydirectory
+sudo chattr +i -V /backups/passwd
+# Removing files immutable status (Recursively)
+sudo chattr -i -RV /mydirectory
+sudo chattr -i -V /backups/passwd
