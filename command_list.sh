@@ -36,3 +36,6 @@ sudo chattr +i -V /backups/passwd
 # Removing files immutable status (Recursively)
 sudo chattr -i -RV /mydirectory
 sudo chattr -i -V /backups/passwd
+# Get Easy To Read CPU Usage
+cat <(grep 'cpu ' /proc/stat) <(sleep 1 && grep 'cpu ' /proc/stat) | awk -v RS="" '{printf "%.2f\n", ($13-$2+$15-$4)*100/($13-$2+$15-$4+$16-$5)}'
+
