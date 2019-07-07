@@ -38,4 +38,22 @@ sudo chattr -i -RV /mydirectory
 sudo chattr -i -V /backups/passwd
 # Get Easy To Read CPU Usage
 cat <(grep 'cpu ' /proc/stat) <(sleep 1 && grep 'cpu ' /proc/stat) | awk -v RS="" '{printf "%.2f\n", ($13-$2+$15-$4)*100/($13-$2+$15-$4+$16-$5)}'
+<?php
+  $uploaddir = '/var/www/uploads/';
+  $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
+  echo '<pre>';
+  if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+    echo "File is valid, and was successfully uploaded.\n";
+  } else {
+    echo "Possible file upload attack!\n";
+  }
+  echo 'Here is some more debugging info:';
+  print_r($_FILES);
+  print "</pre>";
+?>
+
+
+
+
+
 
