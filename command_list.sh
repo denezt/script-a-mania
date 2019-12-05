@@ -58,3 +58,4 @@ tcpdump -i wlan0 -s 0 -A 'tcp[((tcp[12:1] & 0xf0) >> 2):4] = 0x47455420'
 tcpdump -i enp0s8 -s 0 -A 'tcp dst port 80 and tcp[((tcp[12:1] & 0xf0) >> 2):4] = 0x47455420'
 
 nmap --open -p T:22 192.168.1.0/24 # Scan your internal home network for hosts listening on TCP port 22 (SSH protocol).
+diff <(grep = config.txt) <(grep = config.txt-new) # Compare just the assignment lines of two config files that use = for value assignment.
