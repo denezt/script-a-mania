@@ -62,3 +62,4 @@ diff <(grep = config.txt) <(grep = config.txt-new) # Compare just the assignment
 # Main Git credentials for one year
 git config --global credential.helper 'cache --timeout=31536000'
 
+for dir in */ ; do echo "${dir%/}" ; done # Use the */ trick to get only the directories, then use ${dir%/} to remove the trailing / from each instance of $dir
