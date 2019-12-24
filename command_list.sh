@@ -7,6 +7,8 @@ pv bigdump.sql.gz | gunzip | mysql
 ps aux | awk '{if ($8=="Z") { print $2 }}'
 cat longdomainlist.txt | rev | sort | rev
 lsof -Pan -i tcp -i udp
+# Show first lines (10 lines by default) of the specified file or stdin to the screen
+ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head 
 while [[ $(date +%Y) -ne 2019 ]]; do figlet $(($(date -d 2019-01-01 +%s)-$(date +%s)));sleep 1;clear;done;figlet 'Happy New Year!' #countdown
 rename 's/ /_/g' *
 curl -s http://artscene.textfiles\.com/vt100/globe.vt | pv -L9600 -q
@@ -93,10 +95,50 @@ cksum results.csv
 cmp file1.txt file2.txt
 # Compare two sorted files line-by-line
 comm file1.txt file2.txt
-
-
-
-
-
-
-
+# Sets System Date
+date --set="8 JUN 2017 13:00:00"
+# Copying files, converting and formatting according to flags provided on the command line.
+# It can strip headers, extracting parts of binary files 
+dd if=/home/tecmint/linux-1.0.1-i386.iso of=/dev/sdc1 bs=512M; sync
+# Compare two files line by line
+diff file1.txt file2.txt
+# Retrieving hardware information of any Linux system
+dmidecode --type system
+# Calculates an expression 
+expr 10 + 20 + 30
+#Shows the prime factors of a number
+factor 10
+# Displays all the names of groups a user is a part of
+groups myusername
+# Compress a file, replacing it with one having a .gz extension.
+cat file1 file2 | gzip > foogazi.gz
+# Uncompress .gz file
+gunzip foogazi.gz
+# Print the system hostname and any related settings
+hostnamectl
+# Modify the system hostname
+hostnamectl set-hostname [NEW_HOSTNAME]
+# Probe for the hardware present in a Linux system
+apt install hwinfo
+hwinfo
+# shows user and group information for the current user or specified username
+id root
+id myusername
+# Display or manage routing, devices, policy routing and tunnels.
+# Replaces the ifconfig program
+ip addr add 192.168.56.10 dev eth1
+# Check existing rules on a system 
+iptables -L -n -v
+# Manage wireless devices and their configuration
+apt install iw
+iw list
+# Displays detailed wireless information from a wireless interface
+iwlist wlp1s0 scanning
+# Kill a process using its PID by sending a signal to it
+kill -SIGTERM -p 9999
+# List all currently loaded modules
+kmod list
+# Display a listing of last logged in users
+last
+# Create a soft link between files
+ln -s /usr/bin/lscpu cpuinfo
