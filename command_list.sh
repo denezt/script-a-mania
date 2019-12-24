@@ -164,3 +164,21 @@ suod apt -y install rdiff-backup
 sudo rdiff-backup /etc /media/tecmint/Backup/server_etc.backup
 # Rename many files at once
 rename 's/\.html$/\.php/' *.html
+# Create an archive and split into smaller
+tar -cvjf myarchive.tar.bz2 /home/mydir/*
+split -b 10M myarchive.tar.bz2 "myarchive.tar.bz2.part"
+# Rejoining partitioned archives
+cat myarchive.tar.bz2.parta* > myarchive.tar.gz.joined
+
+# Show the checksum and block counts
+sum myfile.txt 
+# Concatenates and displays files in reverse
+tac file.txt
+
+
+
+
+
+##################
+##  END OF CODE ##
+##################
