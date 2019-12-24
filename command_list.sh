@@ -66,3 +66,37 @@ git config --global credential.helper 'cache --timeout=31536000'
 for dir in */ ; do echo "${dir%/}" ; done 
 # Get only the File Names
 find ./dir1 -type f -exec basename {} \;
+#  search and display a short man page description of a command/program 
+apropos adduser
+# Displaying machine architecture or hardware name
+arch
+# protocol that maps IP network addresses of a network neighbor with the hardware (MAC) addresses in an IPv4 network
+apt-get -y install arp-scan
+arp-scan --interface=eth0 --localnet
+# Shutdown the system at 00:00 today or midnight
+sudo echo "shutdown -h now" | at -m 00:00
+# Query to see all current scheduled tasks
+atq
+# Remove first task
+atrm 1
+# Returns only the filename i.e. UsingTempFile
+basename -s .java script-a-mania/UsingTempFile.java
+# commandline arbitrary precision calculator language
+echo "sqrt(20.9 + 15.00) * (8^7)/9" | bc
+# Compress file
+bzip2 -z filename
+# Decompress file
+bzip2 -d filename.bz2
+# display the CRC checksum and byte count of a file
+cksum results.csv
+# Performs a byte-by-byte comparison of two files
+cmp file1.txt file2.txt
+# Compare two sorted files line-by-line
+comm file1.txt file2.txt
+
+
+
+
+
+
+
