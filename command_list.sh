@@ -142,3 +142,25 @@ kmod list
 last
 # Create a soft link between files
 ln -s /usr/bin/lscpu cpuinfo
+# Find file with the basename 'index.php'
+locate -b "index.php"
+# Minimal tool to get detailed information on the hardware configuration of the machine
+lshw 
+# Displays information related to files opened by processes
+lsof -u myusername
+# View through relatively lengthy text files one screenful at a time
+more myfile.txt
+# Check if port 22 is opened
+nc -zv garagebarge.com 22
+# Shows the number of processing units present to the current process
+nproc
+# Create an archive of all files in the current directory
+# and encrypt the contents of the archive file
+tar -czf - * | openssl enc -e -aes256 -out backup.tar.gz
+# Displays the process ID of a running program/command
+pidof python3
+# A powerful local/remote incremental backup script written in Python
+suod apt -y install rdiff-backup
+sudo rdiff-backup /etc /media/tecmint/Backup/server_etc.backup
+# Rename many files at once
+rename 's/\.html$/\.php/' *.html
