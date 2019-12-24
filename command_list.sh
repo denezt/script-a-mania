@@ -174,9 +174,24 @@ cat myarchive.tar.bz2.parta* > myarchive.tar.gz.joined
 sum myfile.txt 
 # Concatenates and displays files in reverse
 tac file.txt
-
-
-
+# Shows how long the system has been running,
+# number of logged on users and
+# the system load averages as follows.
+uptime
+# Send a message to all users on the system
+wall "Shutting, Down System soon!"
+# Package and compress (archive) files -> Example 1
+tar cf - . | zip | dd of=/dev/nrst0 obs=16k
+# Package and compress (archive) files -> Example 2
+zip inarchive.zip foo.c bar.c --out outarchive.zip
+# Package and compress (archive) files -> Example 3
+tar cf - .| zip backup -
+# Quick access to files and directories in Linux
+apt -y install fex-utils
+# Save list of files/directories to clipboard
+ls -a | zz
+# Return data from clipboard
+"zz"
 
 
 ##################
