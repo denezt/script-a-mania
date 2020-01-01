@@ -192,6 +192,7 @@ apt -y install fex-utils
 ls -a | zz
 # Return data from clipboard
 "zz"
+clear;t=0;while [[ ! $t =~ ^\- ]] ; do printf "\e[0;0f" ; t=$( echo "1577836800-$(date +%s.%N)" | bc );echo $t|figlet -t -f smmono12 --metal; done;yes "$(seq 231 -1 16)" |while read i; do printf "\x1b[48;5;${i}m\n"; sleep .02; done # Countdown to 50 years of Unix epoch time.
 
 
 ##################
