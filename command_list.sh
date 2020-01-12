@@ -197,8 +197,13 @@ clear;t=0;while [[ ! $t =~ ^\- ]] ; do printf "\e[0;0f" ; t=$( echo "1577836800-
 # Req. GatewayPorts yes on sshd
 ssh -R *:8080:localhost:80 remoteserver 
 
-# Show Program Swap Status
+# Show Program Swap Status for all programs
 for file in /proc/*/status ; do awk '/VmSwap|Name/{printf $2 " " $3}END{ print ""}' $file; done | sort -k 2 -n -r | grep 'kB' | less
+
+# Show Swap usage of mysql daemon as kilobytes
+for _pid in `pidof mysqld`; do grep --color VmSwap /proc/${_pid}/status; done
+# Show Swap usage of mysql daemon as megabytes
+for _pid in `pidof mysqld`; do grep --color VmSwap /proc/${_pid}/status | awk '{print $1,$2/1000"M"}'; done
 
 ##################
 ##  END OF CODE ##
