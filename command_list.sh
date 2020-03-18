@@ -207,6 +207,28 @@ for _pid in `pidof mysqld`; do grep --color VmSwap /proc/${_pid}/status; done
 # Show Swap usage of mysql daemon as megabytes
 for _pid in `pidof mysqld`; do grep --color VmSwap /proc/${_pid}/status | awk '{print $1,$2/1000"M"}'; done
 
+# Tv Simulation
+a=(22 28 34 40 46 47 48 49 );c=0;w=0;t=0;
+while :;
+do 
+  printf "\e[0;0H";
+  while [[ $t -le $LINES ]];
+  do 
+    for i in $(seq -s' ' 0 ${#a[*]});
+    do 
+      v=${a[$(((i+w+c-1)%(${#a[*]}+1)))]};
+      printf "\e[48;5;${v}m\n";
+      t=$[t+1];
+    done;
+    w=$[w+1];
+  done;
+  t=0;
+  w=0;
+  c=$[c+1];
+  sleep 0.06;
+done
+
+
 ##################
 ##  END OF CODE ##
 ##################
