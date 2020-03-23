@@ -227,6 +227,11 @@ do
   c=$[c+1];
   sleep 0.06;
 done
+# Disable No Password Access to mysql
+mysql
+UPDATE mysql.user SET plugin = '' WHERE user = 'root' AND host = 'localhost';
+FLUSH PRIVILEGES;
+service mysql restart
 
 
 ##################
