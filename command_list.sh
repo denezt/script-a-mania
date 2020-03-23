@@ -228,11 +228,19 @@ do
   sleep 0.06;
 done
 # Disable No Password Access to mysql
-mysql
-UPDATE mysql.user SET plugin = '' WHERE user = 'root' AND host = 'localhost';
-FLUSH PRIVILEGES;
-service mysql restart
+# Input Manually
+mysql -uroot
+use mysql;
+SHOW VARIABLES LIKE 'validate_password.%';
+SET GLOBAL validate_password_policy=LOW;
+SHOW VARIABLES LIKE 'validate_password%';
+SELECT user,authentication_string,plugin,host FROM mysql.user;
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 
+SELECT user,authentication_string,plugin,host FROM mysql.user;
+# Finished !!
+
+##################
 
 ##################
 ##  END OF CODE ##
