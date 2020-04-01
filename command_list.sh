@@ -239,7 +239,14 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password
 
 SELECT user,authentication_string,plugin,host FROM mysql.user;
 # Remove Client from Fail2Ban Jail :-D
+iptable -L -n
 fail2ban-client set YOURJAILNAMEHERE unbanip IPADDRESSHERE
+fail2ban-client set YOURJAILNAMEHERE banip IPADDRESSHERE
+# Will Ban IP Address
+fail2ban-client set sshd banip IPADDRESSHERE
+# Will Unban IP Address
+fail2ban-client set ssh unbanip IPADDRESSHERE
+
 # Finished !!
 
 ##################
