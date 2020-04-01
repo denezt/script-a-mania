@@ -238,6 +238,8 @@ SELECT user,authentication_string,plugin,host FROM mysql.user;
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
 
 SELECT user,authentication_string,plugin,host FROM mysql.user;
+# Remove Client from Fail2Ban Jail :-D
+fail2ban-client set YOURJAILNAMEHERE unbanip IPADDRESSHERE
 # Finished !!
 
 ##################
