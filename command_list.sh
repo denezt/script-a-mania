@@ -249,7 +249,8 @@ fail2ban-client set ssh unbanip IPADDRESSHERE
 
 # Put the output of each tar file into its own directory.
 for i in *.tar.gz; do mkdir "${i%.tar.gz}";( cd "${i%.tar.gz}" && tar zxvf ../"$i" );done 
-
+# Alternative
+for i in *.tar.gz; do mkdir "${i%.tar.gz}" && tar xvzf $i -C  "${i%.tar.gz}"; done
 
 # Finished !!
 
