@@ -252,6 +252,8 @@ for i in *.tar.gz; do mkdir "${i%.tar.gz}";( cd "${i%.tar.gz}" && tar zxvf ../"$
 # Alternative
 for i in *.tar.gz; do mkdir "${i%.tar.gz}" && tar xvzf $i -C  "${i%.tar.gz}"; done
 
+find . -mtime +4 ! -name '*.gz' ! -empty -execdir gzip -v9 {} + # Find non-empty files over 4 days old under the current directory without a .gz extension and compress them.
+
 # Finished !!
 
 ##################
