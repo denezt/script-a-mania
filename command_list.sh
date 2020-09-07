@@ -254,6 +254,9 @@ for i in *.tar.gz; do mkdir "${i%.tar.gz}" && tar xvzf $i -C  "${i%.tar.gz}"; do
 
 find . -mtime +4 ! -name '*.gz' ! -empty -execdir gzip -v9 {} + # Find non-empty files over 4 days old under the current directory without a .gz extension and compress them.
 
+for i in {128512..128591} {128640..128725} ; do printf "\U$(echo "ibase=10;obase=16;$i;" | bc) " ; done ; echo # Terminal Support of emojis
+
+
 # Finished !!
 
 ##################
