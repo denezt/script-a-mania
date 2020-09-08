@@ -256,7 +256,7 @@ find . -mtime +4 ! -name '*.gz' ! -empty -execdir gzip -v9 {} + # Find non-empty
 
 for i in {128512..128591} {128640..128725} ; do printf "\U$(echo "ibase=10;obase=16;$i;" | bc) " ; done ; echo # Terminal Support of emojis
 
-
+VBoxManage modifyvm "Ubuntu Desktop" --nested-hw-virt on # Turn on Hyper-V
 # Finished !!
 
 ##################
