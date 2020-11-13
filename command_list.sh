@@ -259,6 +259,14 @@ for i in {128512..128591} {128640..128725} ; do printf "\U$(echo "ibase=10;obase
 VBoxManage modifyvm "Ubuntu Desktop" --nested-hw-virt on # Turn on Hyper-V
 # Finished !!
 
+## Fix Docker-Compose
+sudo rm /usr/local/bin/docker-compose
+apt-get install python3-pip
+pip3 uninstall docker-compose
+pip uninstall docker-compose
+pip3 install docker-compose
+pip install docker-compose
+
 ##################
 
 ##################
