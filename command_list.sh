@@ -258,6 +258,13 @@ for i in {128512..128591} {128640..128725} ; do printf "\U$(echo "ibase=10;obase
 
 VBoxManage modifyvm "Ubuntu Desktop" --nested-hw-virt on # Turn on Hyper-V
 # Finished !!
+# Sunrise in a 24-bit terminal
+p=3.14;
+for i in $( seq 0 0.04 100 );
+do 
+  r=$( printf "128+127*s($i)\n" | bc -l |cut -d. -f1) g=$( printf "128+127*s($i+$p*(1/3))\n" |bc -l |cut -d. -f1 ) b=$( printf "128+127*s($i+$p*(2/3))\n" |bc -l |cut -d. -f1 ); 
+  printf "\e[48;2;$r;$g;${b}m\n"; 
+done
 
 ## Fix Docker-Compose
 sudo rm /usr/local/bin/docker-compose
