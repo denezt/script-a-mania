@@ -274,6 +274,18 @@ pip uninstall docker-compose
 pip3 install docker-compose
 pip install docker-compose
 
+# Quine - Computational Self-Replication
+# parts - data code
+s='s=%r;print(s%%s)';print(s%s)
+s='test %r';print(s%s)
+
+# Intron
+t='';s='t=input() or t; print(f"t={repr(t)}; s={repr(s)}; exec(s)#{t}")';exec(s)#
+print(open(__file__).read())
+
+
+
+
 ##################
 
 ##################
