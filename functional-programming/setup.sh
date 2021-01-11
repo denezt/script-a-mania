@@ -16,7 +16,7 @@ add_to_bashrc(){
 	echo "Add To BASHRC"
 	message='Loading, Global Functions...'
 	printf "\nif [ -e \'${HOME}/${_gf}\' ];\nthen\n\techo \'${message}\'\n\t. ${HOME}/${_gf}\nfi\n" >> ${HOME}/${_rcfile}
-	printf "\033[35mReload \033[34m\'${_rcfile}\' \033[35mfile.\033[0m? [ \033[32m(y)es\033[0m, \033\31m(n)o\033[0m ] "
+	printf "\033[35mReload \033[34m\'${_rcfile}\' \033[35mfile.\033[0m? [ \033[32m(y)es\033[0m, \033[31m(n)o\033[0m ] "
 	read _confirm
 	case $_confirm in
 		y|yes) exec bash;;
