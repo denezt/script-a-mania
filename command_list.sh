@@ -283,7 +283,9 @@ s='test %r';print(s%s)
 t='';s='t=input() or t; print(f"t={repr(t)}; s={repr(s)}; exec(s)#{t}")';exec(s)#
 print(open(__file__).read())
 
-
+# computer speaker
+nc -l -p 12345 | cat - | espeak
+nc host2 12345
 
 
 ##################
