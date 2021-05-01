@@ -287,6 +287,22 @@ print(open(__file__).read())
 nc -l -p 12345 | cat - | espeak
 nc host2 12345
 
+# Creating a 2G junk data file
+dd if=/dev/zero of=output.img bs=2M count=1024
+
+# Compressing with different tools
+gzip -c output.img > output.img.gz
+xz -zk output.img
+7za a -t7z output.img.7z output.img
+
+# Archiving file
+tar -cf output.img.tar output.img
+
+# Create an unlimited size bzip2 archive (100TB)
+dd if=/dev/zero bs=10G count=10000 | bzip2 -c > my-hamster-images.bz2
+
+# Begin the extracting of that file
+bzip2 -d my-hamster-images.bz2
 
 ##################
 
