@@ -304,6 +304,42 @@ dd if=/dev/zero bs=10G count=10000 | bzip2 -c > my-hamster-images.bz2
 # Begin the extracting of that file
 bzip2 -d my-hamster-images.bz2
 
+# String Manipulation
+var="This is a message"
+
+# Get the String Length
+echo ${#var}
+
+# Slicing parts of a string
+# Get all chars in string
+echo ${var:0}
+
+# Get all chars and remove the first two
+echo ${var:2}
+
+# Get all chars and cut from the end two
+echo ${var:0:2}
+
+# Using minus indexing, we need to add a SPACE
+# after the colon and between other indexing
+
+echo ${var: -1}
+echo ${var: -4}
+echo ${var: -1 -6}
+
+# String Replacement and Substitution
+# Replace first Match
+echo ${var/e/a}
+# Replace all Matches
+echo ${var//e/a}
+
+# Replace text from specific index
+echo ${var:0:(-1 -4)}XYZ
+
+
+
+
+
 ##################
 
 ##################
