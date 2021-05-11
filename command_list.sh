@@ -336,9 +336,19 @@ echo ${var//e/a}
 # Replace text from specific index
 echo ${var:0:(-1 -4)}XYZ
 
+# Reversing Content
+echo "tacocat evil gnol"  | perl -ne 'chomp;print scalar reverse;'
 
+x="tacocat evil gnol"
+len=`echo ${#x}`
+while [ $len -ne 0 ]
+do
+        y=$y`echo $x | cut -c $len`
+        ((len--))
+done
+echo $y
 
-
+echo "tacocat evil gnol" | rev
 
 ##################
 
