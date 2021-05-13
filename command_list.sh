@@ -350,6 +350,12 @@ echo $y
 
 echo "tacocat evil gnol" | rev
 
+# Check Git Ignore for file
+git check-ignore -v example.log
+# Untrack the file first, to start ignoring it
+git rm --cached FILENAME
+
+
 ##################
 
 ##################
