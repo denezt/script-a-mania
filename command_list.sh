@@ -355,6 +355,10 @@ git check-ignore -v example.log
 # Untrack the file first, to start ignoring it
 git rm --cached FILENAME
 
+# Recursively find&sort the last
+# modified files in your current
+# directory
+alias lastmod="find . -type f -exec stat --format '%Y :%y %n' \"{}\" \; | sort -nr | cut -d: -f2-"
 
 ##################
 
