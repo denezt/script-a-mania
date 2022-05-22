@@ -283,8 +283,9 @@ s='test %r';print(s%s)
 t='';s='t=input() or t; print(f"t={repr(t)}; s={repr(s)}; exec(s)#{t}")';exec(s)#
 print(open(__file__).read())
 
-
-
+# Install PIP
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
 
 ##################
 
