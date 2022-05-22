@@ -9,11 +9,7 @@ tmp/**
 .gradlew
 *.log
 *.class
-<<<<<<< HEAD
-=======
 
 # build files
 container/ex1/container-root
 container/ex1/linux-os.tar
-
->>>>>>> 816652112f4c9725c85ce9c88f12b26d713f5960
