@@ -283,6 +283,7 @@ s='test %r';print(s%s)
 t='';s='t=input() or t; print(f"t={repr(t)}; s={repr(s)}; exec(s)#{t}")';exec(s)#
 print(open(__file__).read())
 
+<<<<<<< HEAD
 # computer speaker
 nc -l -p 12345 | cat - | espeak
 nc host2 12345
@@ -359,6 +360,10 @@ git rm --cached FILENAME
 # modified files in your current
 # directory
 alias lastmod="find . -type f -exec stat --format '%Y :%y %n' \"{}\" \; | sort -nr | cut -d: -f2-"
+=======
+# Install PIP
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
 
 ##################
 
