@@ -1,1 +1,62 @@
-buildscript {}
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.hidetake:gradle-ssh-plugin:2.10.1'
+    }
+}
+
+apply plugin: 'ssh'
+apply plugin: 'war'
+
+
+war {
+    archiveName = 'rest.war'
+}
+
+dependencies {
+  // Add a list of dependencies
+}
+
+ssh {
+    config(StrictHostKeyChecking: 'no')
+}
+
+remotes {
+    testserver {
+        host = 'garagebarge.com'
+        user = sshuser
+        identity = file("${System.properties['user.home']}/.ssh/id_rsa")
+    }
+}
+
+task deployTestServer << {
+    deploy(remotes.testserver)
+}
+
+deployTestServer.dependsOn build
+
+def deploy(def server) {
+    logger.lifecycle("Deploying to $server")
+    logger.lifecycle("Copying ${war.archivePath.absolutePath} to $server")
+    sshexec {
+        session(server) {
+            put(war.archivePath.absolutePath, war.archiveName)
+        }
+    }
+    sshexecute(server, '/usr/share/tomcat7/bin/tomcat7 stop')
+    sshexecute(server, 'rm -rf /var/lib/tomcat7/webapps/rest*')
+    sshexecute(server, "cp ${war.archiveName}  /var/lib/tomcat7/webapps")
+    sshexecute(server, '/usr/share/tomcat7/bin/tomcat7 start')
+    sshexecute(server, '/usr/share/tomcat7/bin/tomcat7 status')
+}
+
+def sshexecute(def server, def cmd) {
+    logger.lifecycle("Executing '$cmd'  ...")
+    sshexec {
+        session(server) {
+            execute(cmd, pty: true)
+        }
+    }
+ }
