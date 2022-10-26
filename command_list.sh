@@ -365,6 +365,10 @@ alias lastmod="find . -type f -exec stat --format '%Y :%y %n' \"{}\" \; | sort -
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python get-pip.py
 
+# Convert Json Digits to String
+sed -re 's/([0-9]+),/"\1",/g' -e 's/,,/,"",/g' inputTestData.txt
+jq . myJsonFile.json | sed -re 's/([0-9]+),/"\1",/g' -e 's/,,/,"",/g'
+
 ##################
 
 ##################
