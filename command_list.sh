@@ -368,6 +368,10 @@ python get-pip.py
 sed -re 's/([0-9]+),/"\1",/g' -e 's/,,/,"",/g' inputTestData.txt
 jq . myJsonFile.json | sed -re 's/([0-9]+),/"\1",/g' -e 's/,,/,"",/g'
 
+# Allow privilege for user with any ip address
+GRANT ALL PRIVILEGES ON *.* TO 'myuser'@'%';
+
+
 ##################
 
 ##################
