@@ -370,6 +370,22 @@ jq . myJsonFile.json | sed -re 's/([0-9]+),/"\1",/g' -e 's/,,/,"",/g'
 
 # Allow privilege for user with any ip address
 GRANT ALL PRIVILEGES ON *.* TO 'myuser'@'%';
+##### Script Starts #####
+# Removes old revisions of snaps
+# CLOSE ALL SNAPS BEFORE RUNNING THIS
+# Retain only two versions
+sudo snap set system refresh.retain=2
+# View all snap
+snap list --all
+
+set -eu
+LANG=en_US.UTF-8 snap list --all | awk '/disabled/{print $1, $3}' | \
+while read snapname revision;
+do
+ 	snap remove "$snapname" --revision="$revision"
+done
+##### Script Stops #####
+
 
 
 ##################
