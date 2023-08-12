@@ -384,6 +384,34 @@ while read snapname revision;
 do
  	snap remove "$snapname" --revision="$revision"
 done
+
+# Check if Auto Complete is installed
+type _init_completion
+
+# Install Auto Complete if not installed with APT or Yum
+_installed=$(type _init_completion 1&> /dev/null; echo $?)
+[ ${_installed} -gt 0 ] && \
+[ -n "$(command -v yum)" ] && yum install bash-completion && exit 0 || \
+[ -n "$(command -v apt)" ] && apt-get install bash-completion && exit 0 || \
+[ -n "$(command -v yum)" -a -n "$(command -v apt)" ] && \
+echo "Error: No corresponding package manager was found!"
+
+# Add all completion commands
+kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
+
+# Add an alias to bashrc
+echo 'alias k=kubectl' >>~/.bashrc
+
+# Define the command for the autocompletion
+echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
+
+
+
+
+
+
+
+
 ##### Script Stops #####
 
 
