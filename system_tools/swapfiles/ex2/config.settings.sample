@@ -1,0 +1,8 @@
+# Main directory location for swapfile
+dir={MAIN_DIR}
+# Set without leading '/'
+swapfile={SWAPFILE_NAME}
+# Recommend: Size set as 1G, 2G or {N}G
+swap_size={SIZE_OF_SWAP}
+# Recommend: Set from 10 to 70
+swappiness={SWAP_RATE}
