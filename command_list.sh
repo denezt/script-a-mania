@@ -208,14 +208,15 @@ for _pid in `pidof mysqld`; do grep --color VmSwap /proc/${_pid}/status; done
 for _pid in `pidof mysqld`; do grep --color VmSwap /proc/${_pid}/status | awk '{print $1,$2/1000"M"}'; done
 
 # Tv Simulation
-a=(22 28 34 40 46 47 48 49 );c=0;w=0;t=0;
+a=( 22 28 34 40 46 47 48 49 )
+c=0;w=0;t=0;
 while :;
-do 
+do
   printf "\e[0;0H";
   while [[ $t -le $LINES ]];
-  do 
+  do
     for i in $(seq -s' ' 0 ${#a[*]});
-    do 
+    do
       v=${a[$(((i+w+c-1)%(${#a[*]}+1)))]};
       printf "\e[48;5;${v}m\n";
       t=$[t+1];
@@ -405,7 +406,17 @@ echo 'alias k=kubectl' >>~/.bashrc
 # Define the command for the autocompletion
 echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
 
-
+# Remove all ARP - Address Resolution Protocol Entries
+# (Example 1)
+# Get the ARP entries and store them in an array
+_all_arp=($(sudo arp -a | awk '{print $2}' | tr -d '()'))
+# Iterate through the array and delete each ARP entry
+for aa in "${_all_arp[@]}"; do
+  sudo arp -d "$aa"
+done
+# (Example 2)
+# Oneliner
+sudo arp -a | awk '{print $2}' | tr -d '()' | xargs -I {} sudo arp -d {}
 
 
 
