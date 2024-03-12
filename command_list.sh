@@ -356,6 +356,9 @@ git check-ignore -v example.log
 # Untrack the file first, to start ignoring it
 git rm --cached FILENAME
 
+# Use a specific ssh-key
+git config core.sshCommand "ssh -i /path/to/your/private_key -o IdentitiesOnly=yes"
+
 # Recursively find&sort the last
 # modified files in your current
 # directory
