@@ -421,7 +421,8 @@ done
 # Oneliner
 sudo arp -a | awk '{print $2}' | tr -d '()' | xargs -I {} sudo arp -d {}
 
-
+# Expanding the SSL
+certbot --apache --expand -d domainname.com  -d www.domainname.com
 
 
 
