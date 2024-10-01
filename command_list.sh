@@ -10,7 +10,7 @@ ps aux | awk '{if ($8=="Z") { print $2 }}'
 cat longdomainlist.txt | rev | sort | rev
 lsof -Pan -i tcp -i udp
 # Show first lines (10 lines by default) of the specified file or stdin to the screen
-ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head 
+ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head
 while [[ $(date +%Y) -ne 2019 ]]; do figlet $(($(date -d 2019-01-01 +%s)-$(date +%s)));sleep 1;clear;done;figlet 'Happy New Year!' #countdown
 rename 's/ /_/g' *
 curl -s http://artscene.textfiles\.com/vt100/globe.vt | pv -L9600 -q
@@ -67,10 +67,10 @@ diff <(grep = config.txt) <(grep = config.txt-new) # Compare just the assignment
 git config --global credential.helper 'cache --timeout=31536000'
 
 # Use the */ trick to get only the directories, then use ${dir%/} to remove the trailing / from each instance of $dir
-for dir in */ ; do echo "${dir%/}" ; done 
+for dir in */ ; do echo "${dir%/}" ; done
 # Get only the File Names
 find ./dir1 -type f -exec basename {} \;
-#  search and display a short man page description of a command/program 
+#  search and display a short man page description of a command/program
 apropos adduser
 # Displaying machine architecture or hardware name
 arch
@@ -100,7 +100,7 @@ comm file1.txt file2.txt
 # Sets System Date
 date --set="8 JUN 2017 13:00:00"
 # Copying files, converting and formatting according to flags provided on the command line.
-# It can strip headers, extracting parts of binary files 
+# It can strip headers, extracting parts of binary files
 dd if=/home/tecmint/linux-1.0.1-i386.iso of=/dev/sdc1 bs=512M; sync
 # Compare two files line by line
 diff file1.txt file2.txt
@@ -129,7 +129,7 @@ id myusername
 # Display or manage routing, devices, policy routing and tunnels.
 # Replaces the ifconfig program
 ip addr add 192.168.56.10 dev eth1
-# Check existing rules on a system 
+# Check existing rules on a system
 iptables -L -n -v
 # Manage wireless devices and their configuration
 apt install iw
@@ -147,7 +147,7 @@ ln -s /usr/bin/lscpu cpuinfo
 # Find file with the basename 'index.php'
 locate -b "index.php"
 # Minimal tool to get detailed information on the hardware configuration of the machine
-lshw 
+lshw
 # Displays information related to files opened by processes
 lsof -u myusername
 # View through relatively lengthy text files one screenful at a time
@@ -173,7 +173,7 @@ split -b 10M myarchive.tar.bz2 "myarchive.tar.bz2.part"
 cat myarchive.tar.bz2.parta* > myarchive.tar.gz.joined
 
 # Show the checksum and block counts
-sum myfile.txt 
+sum myfile.txt
 # Concatenates and displays files in reverse
 tac file.txt
 # Shows how long the system has been running,
@@ -197,7 +197,7 @@ ls -a | zz
 clear;t=0;while [[ ! $t =~ ^\- ]] ; do printf "\e[0;0f" ; t=$( echo "1577836800-$(date +%s.%N)" | bc );echo $t|figlet -t -f smmono12 --metal; done;yes "$(seq 231 -1 16)" |while read i; do printf "\x1b[48;5;${i}m\n"; sleep .02; done # Countdown to 50 years of Unix epoch time.
 # Make local webserver available via remoteserver:8080.
 # Req. GatewayPorts yes on sshd
-ssh -R *:8080:localhost:80 remoteserver 
+ssh -R *:8080:localhost:80 remoteserver
 
 # Show Program Swap Status for all programs
 for file in /proc/*/status ; do awk '/VmSwap|Name/{printf $2 " " $3}END{ print ""}' $file; done | sort -k 2 -n -r | grep 'kB' | less
@@ -249,7 +249,7 @@ fail2ban-client set sshd banip IPADDRESSHERE
 fail2ban-client set ssh unbanip IPADDRESSHERE
 
 # Put the output of each tar file into its own directory.
-for i in *.tar.gz; do mkdir "${i%.tar.gz}";( cd "${i%.tar.gz}" && tar zxvf ../"$i" );done 
+for i in *.tar.gz; do mkdir "${i%.tar.gz}";( cd "${i%.tar.gz}" && tar zxvf ../"$i" );done
 # Alternative
 for i in *.tar.gz; do mkdir "${i%.tar.gz}" && tar xvzf $i -C  "${i%.tar.gz}"; done
 
@@ -262,9 +262,9 @@ VBoxManage modifyvm "Ubuntu Desktop" --nested-hw-virt on # Turn on Hyper-V
 # Sunrise in a 24-bit terminal
 p=3.14;
 for i in $( seq 0 0.04 100 );
-do 
-  r=$( printf "128+127*s($i)\n" | bc -l |cut -d. -f1) g=$( printf "128+127*s($i+$p*(1/3))\n" |bc -l |cut -d. -f1 ) b=$( printf "128+127*s($i+$p*(2/3))\n" |bc -l |cut -d. -f1 ); 
-  printf "\e[48;2;$r;$g;${b}m\n"; 
+do
+  r=$( printf "128+127*s($i)\n" | bc -l |cut -d. -f1) g=$( printf "128+127*s($i+$p*(1/3))\n" |bc -l |cut -d. -f1 ) b=$( printf "128+127*s($i+$p*(2/3))\n" |bc -l |cut -d. -f1 );
+  printf "\e[48;2;$r;$g;${b}m\n";
 done
 
 ## Fix Docker-Compose
@@ -421,14 +421,10 @@ done
 # Oneliner
 sudo arp -a | awk '{print $2}' | tr -d '()' | xargs -I {} sudo arp -d {}
 
-
-
-
-
+# Remove trailing spaces from file
+sed -i 's/[ \t]*$//' [FILENAME]
 
 ##### Script Stops #####
-
-
 
 ##################
 

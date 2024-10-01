@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Create initial ssh-agent
+# process stack
+ssh_stack=($(sudo pgrep ssh-agent))
+
+# Get the length of stack
+length_of_stack(){
+	printf "\033[35mCurrent items in stack: \033[35m${#ssh_stack[@]}.\033[0m\n"
+}
+
+# Remove first item from stack
+# FIFO - (First In First Out)
+remove_from_stack(){
+	pid=${1}
+	printf "\033[35mPopping, item \033[33m${pid} \033[35mfrom stack.\033[0m\n"
+	sudo kill -9 ${pid}
+	length_of_stack
+}
+
+# Check if more than three items in stack
+if [ ${#ssh_stack[@]} -gt 3 ];
+then
+	length_of_stack
+	# Begin removal while more than three items in stack
+	while [ ${#ssh_stack[@]} -gt 3 ];
+	do
+		for s in ${ssh_stack[*]};
+		do
+			printf "\033[35mCurrent item in stack: \033[36m${s}\033[0m\n"
+		done
+		sleep 0.5
+		ssh_stack=($(sudo pgrep ssh-agent))
+		remove_from_stack ${ssh_stack[0]}
+	done
+else
+	printf "\033[35mNo items were removed from ssh_agent_stack.\033[0m\n"
+	sleep 0.5
+fi
+
+clear
