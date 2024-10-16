@@ -421,6 +421,9 @@ done
 # Oneliner
 sudo arp -a | awk '{print $2}' | tr -d '()' | xargs -I {} sudo arp -d {}
 
+# Remove all of address resolution protocol entries
+ip -s -s neigh flush all
+
 # Remove trailing spaces from file
 sed -i 's/[ \t]*$//' [FILENAME]
 
