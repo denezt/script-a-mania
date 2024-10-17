@@ -155,10 +155,17 @@ usage(){
     printf "\033[35m$0\t\033[32m--action=run-checks --dir=/my/java/project\033[0m\n"
 }
 
+build_tool(){
+    printf "\033[36mBUILD TOOLS:\033[0m\n"
+    printf "\033[35mGradle Build\t\033[32m[ gradle ]\033[0m\n"
+    printf "\033[35mMaven Build\t\033[32m[ maven ]\033[0m\n"
+}
+
 commands(){
     printf "\033[36mCOMMANDS:\033[0m\n"
     printf "\033[35mRun Checks\t\033[32m[ rc, run-checks ]\033[0m\n"
     echo;
+    build_tool
 }
 
 help_menu(){
@@ -177,6 +184,7 @@ do
         help|-h|-help|--help) help_menu;;
         dir:*|--dir=*|project:*|--project=*) _project_dir=$(extract_value "${argv}");;
         action:*|--action=*|exec:*|--exec=*) _action=$(extract_value "${argv}");;
+        bt:*|--bt=*|build-tool:*|--build-tool=*) _build_tool=$(extract_value "${argv}");;
         *) error "Invalid parameter was given";;
     esac
 done
