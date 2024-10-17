@@ -85,24 +85,40 @@ find_refactor_candidates(){
 # List the project's dependencies (checking for old versions)
 list_project_dependencies(){
     PROJECT_DIR=$1
-    echo "------------------------------------------------"
-    echo "Listing dependencies from build tools (Maven/Gradle)..."
-    [ -z "$(command -v mvn)" ] && error "Missing build automation program 'mvn'"
-    [ -z "$(command -v gradle)" ] && error "Missing build automation program 'gradle'"
-    if [ -f "$PROJECT_DIR/pom.xml" ]; then
-        echo "Found Maven project. Listing dependencies from pom.xml..."
-        for f in $(mvn -f "$PROJECT_DIR/pom.xml" dependency:tree);
-        do
-            write_to_log $f
-        done
-    # elif [ -f "$PROJECT_DIR/build.gradle" ]; then
-    #     echo "Found Gradle project. Listing dependencies from build.gradle..."
-    #     for f in $(gradle --scan --info --no-daemon -p "$PROJECT_DIR" dependencies 2> /dev/null);
-    #     do
-    #         write_to_log $f
-    #     done
+    BUILD_TOOL=$2
+    if [ -n "${BUILD_TOOL}" ];
+    then
+        echo "------------------------------------------------"    
+        case $build_tool in
+            gradle)
+            echo "Listing dependencies from build tools Gradle..."
+            [ -z "$(command -v gradle)" ] && error "Missing build automation program 'gradle'"
+            if [ -f "$PROJECT_DIR/pom.xml" ]; then
+                echo "Found Maven project. Listing dependencies from pom.xml..."
+                for f in $(mvn -f "$PROJECT_DIR/pom.xml" dependency:tree);
+                do
+                    write_to_log $f
+                done
+            else
+                echo "No Maven POM (Project Object Model) file found. Please ensure you check your dependencies manually."
+            fi
+            ;;
+            maven) 
+            echo "Listing dependencies from build tools Maven..."
+            [ -z "$(command -v mvn)" ] && error "Missing build automation program 'mvn'"
+            if [ -f "$PROJECT_DIR/build.gradle" ]; then
+                echo "Found Gradle project. Listing dependencies from build.gradle..."
+                for f in $(gradle --scan --info --no-daemon -p "$PROJECT_DIR" dependencies 2> /dev/null);
+                do
+                    write_to_log $f
+                done
+            else
+                echo "No Gradle build file found. Please ensure you check your dependencies manually."
+            fi
+            ;;
+        esac
     else
-        echo "No Maven or Gradle build file found. Please ensure you check your dependencies manually."
+        write_to_log "No build tool was defined, skipping maven and gradle project dependencies check."
     fi
 }
 
