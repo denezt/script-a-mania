@@ -86,7 +86,7 @@ find_refactor_candidates(){
     write_to_log "------------------------------------------------"
     write_to_log "Identifying usage of old Java language constructs (optional but refactor candidates)..."
     # Look for old-style for loops which could be replaced with Streams
-    if [ -n "$(egrep -r --include='*.java' 'for (.* : .*Iterable' $PROJECT_DIR)" ];
+    if [ -n "$(egrep -r --include='*.java' "for \(.* : .*Iterable" $PROJECT_DIR)" ];
     then
         echo 'Identifying usage of old Java language constructs (optional but refactor candidates)...' | tee -a $refactor
         egrep -r --include='*.java' 'for (.* : .*Iterable' $PROJECT_DIR | tee -a $refactor
@@ -149,14 +149,14 @@ run_all_checks(){
     write_to_log "Checking Project: ${PROJECT_DIR}"
     echo "Scanning Java 8 project for issues before migrating to Java 21..." 
     find_deprecated "${PROJECT_DIR}"
-    # find_javax "${PROJECT_DIR}"
-    # find_api_internal "${PROJECT_DIR}"
-    # find_reflectives "${PROJECT_DIR}"
-    # find_refactor_candidates "${PROJECT_DIR}"
+    find_javax "${PROJECT_DIR}"
+    find_api_internal "${PROJECT_DIR}"
+    find_reflectives "${PROJECT_DIR}"
+    find_refactor_candidates "${PROJECT_DIR}"
     # Apply when build tool is set
     if [ -n "${BUILD_TOOL}" ];
     then
-        list_project_dependencies "${PROJECT_DIR}"
+        list_project_dependencies "${PROJECT_DIR}" "${BUILD_TOOL}"
     fi
     find_jars "${PROJECT_DIR}"
     exit 0
