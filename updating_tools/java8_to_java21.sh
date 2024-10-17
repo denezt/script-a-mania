@@ -88,7 +88,7 @@ list_project_dependencies(){
     BUILD_TOOL=$2
     if [ -n "${BUILD_TOOL}" ];
     then
-        echo "------------------------------------------------"    
+        echo "------------------------------------------------"
         case $build_tool in
             gradle)
             echo "Listing dependencies from build tools Gradle..."
@@ -103,7 +103,7 @@ list_project_dependencies(){
                 echo "No Maven POM (Project Object Model) file found. Please ensure you check your dependencies manually."
             fi
             ;;
-            maven) 
+            maven)
             echo "Listing dependencies from build tools Maven..."
             [ -z "$(command -v mvn)" ] && error "Missing build automation program 'mvn'"
             if [ -f "$PROJECT_DIR/build.gradle" ]; then
