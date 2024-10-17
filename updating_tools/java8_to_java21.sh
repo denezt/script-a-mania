@@ -30,31 +30,31 @@ write_to_log(){
 # Looking for any deprecated packages
 find_deprecated(){
     PROJECT_DIR=$1
-    echo "------------------------------------------------"
-    echo "Checking for deprecated APIs..."
-    for f in $(grep -r --include="*.java" "@Deprecated" "$PROJECT_DIR");
+    write_to_log "------------------------------------------------"
+    write_to_log "Checking for deprecated APIs..."
+    for f in $(egrep -r --include="*.java" "@Deprecated" "$PROJECT_DIR");
     do
-        write_to_log $f
+        write_to_log "${f}"
     done
 }
 
 # Checking if javax packages exist
 find_javax(){
     PROJECT_DIR=$1
-    echo "------------------------------------------------"
-    echo "Checking for javax package usage (potential migration needed to Jakarta EE)..."
-    for f in $(grep -r --include="*.java" "javax." "$PROJECT_DIR");
-    do
-        write_to_log $f
-    done
+    write_to_log "------------------------------------------------"
+    write_to_log "Checking for javax package usage (potential migration needed to Jakarta EE)..."
+    if [ -n "$(egrep -r --include="*.java" "javax." "$PROJECT_DIR")" ];
+    then
+        egrep -r --include="*.java" "javax." "$PROJECT_DIR" | sed 's/^/\"/g' | sed 's/\:/\"\,\"/g' | sed 's/\;/\"/g' | xargs write_to_log
+    fi
 }
 
 # Looking for internal API usage (e.g., sun.misc.Unsafe)
 find_api_internal(){
     PROJECT_DIR=$1
-    echo "------------------------------------------------"
-    echo "Checking for usage of internal APIs (sun.*)..."
-    for f in $(grep -r --include="*.java" "sun." "$PROJECT_DIR");
+    write_to_log "------------------------------------------------"
+    write_to_log "Checking for usage of internal APIs (sun.*)..."
+    for f in $(egrep -r --include="*.java" "sun." "$PROJECT_DIR");
     do
         write_to_log $f
     done
@@ -63,9 +63,9 @@ find_api_internal(){
 # Looking for reflective access (which might cause issues with Java Modules)
 find_reflectives(){
     PROJECT_DIR=$1
-    echo "------------------------------------------------"
-    echo "Checking for reflective access usage (possible illegal reflective access in Java 9+)..."
-    for f in $(grep -r --include="*.java" "Class.forName\|getDeclaredField\|setAccessible" "$PROJECT_DIR");
+    write_to_log "------------------------------------------------"
+    write_to_log "Checking for reflective access usage (possible illegal reflective access in Java 9+)..."
+    for f in $(egrep -r --include="*.java" "Class.forName\|getDeclaredField\|setAccessible" "$PROJECT_DIR");
     do
         write_to_log $f
     done
@@ -73,10 +73,10 @@ find_reflectives(){
 
 # Check for refactoring older Java 8 contained 
 find_refactor_candidates(){
-    echo "------------------------------------------------"
-    echo "Identifying usage of old Java language constructs (optional but refactor candidates)..."
+    write_to_log "------------------------------------------------"
+    write_to_log "Identifying usage of old Java language constructs (optional but refactor candidates)..."
     # Look for old-style for loops which could be replaced with Streams
-    for f in $(grep -r --include="*.java" "for (.* : .*Iterable" "$PROJECT_DIR");
+    for f in $(egrep -r --include="*.java" "for (.* : .*Iterable" "$PROJECT_DIR");
     do
         write_to_log $f
     done
@@ -86,63 +86,66 @@ find_refactor_candidates(){
 list_project_dependencies(){
     PROJECT_DIR=$1
     BUILD_TOOL=$2
-    if [ -n "${BUILD_TOOL}" ];
-    then
-        echo "------------------------------------------------"
-        case $build_tool in
-            gradle)
-            echo "Listing dependencies from build tools Gradle..."
-            [ -z "$(command -v gradle)" ] && error "Missing build automation program 'gradle'"
-            if [ -f "$PROJECT_DIR/pom.xml" ]; then
-                echo "Found Maven project. Listing dependencies from pom.xml..."
-                for f in $(mvn -f "$PROJECT_DIR/pom.xml" dependency:tree);
-                do
-                    write_to_log $f
-                done
-            else
-                echo "No Maven POM (Project Object Model) file found. Please ensure you check your dependencies manually."
-            fi
-            ;;
-            maven)
-            echo "Listing dependencies from build tools Maven..."
-            [ -z "$(command -v mvn)" ] && error "Missing build automation program 'mvn'"
-            if [ -f "$PROJECT_DIR/build.gradle" ]; then
-                echo "Found Gradle project. Listing dependencies from build.gradle..."
-                for f in $(gradle --scan --info --no-daemon -p "$PROJECT_DIR" dependencies 2> /dev/null);
-                do
-                    write_to_log $f
-                done
-            else
-                echo "No Gradle build file found. Please ensure you check your dependencies manually."
-            fi
-            ;;
-        esac
+    write_to_log "------------------------------------------------"
+    case $build_tool in
+    gradle)
+    write_to_log "Listing dependencies from build tools Gradle..."
+    [ -z "$(command -v gradle)" ] && error "Missing build automation program 'gradle'"
+    if [ -f "$PROJECT_DIR/pom.xml" ]; then
+        write_to_log "Found Maven project. Listing dependencies from pom.xml..."
+        for f in $(mvn -f "$PROJECT_DIR/pom.xml" dependency:tree);
+        do
+            write_to_log $f
+        done
     else
-        write_to_log "No build tool was defined, skipping maven and gradle project dependencies check."
+        write_to_log "No Maven POM (Project Object Model) file found. Please ensure you check your dependencies manually."
     fi
+    ;;
+    maven)
+    echo "Listing dependencies from build tools Maven..."
+    [ -z "$(command -v mvn)" ] && error "Missing build automation program 'mvn'"
+    if [ -f "$PROJECT_DIR/build.gradle" ]; then
+        write_to_log "Found Gradle project. Listing dependencies from build.gradle..."
+        for f in $(gradle --scan --info --no-daemon -p "$PROJECT_DIR" dependencies 2> /dev/null);
+        do
+            write_to_log $f
+        done
+    else
+        write_to_log "No Gradle build file found. Please ensure you check your dependencies manually."
+    fi
+    ;;
+    esac
 }
 
 # Check for JAR files that might need module migration
 find_jars(){
     PROJECT_DIR=$1
-    echo "------------------------------------------------"
-    echo "Identifying any JARs that might need module migration..."
-    find "$PROJECT_DIR" -name "*.jar" -exec jdeps {} \;
-    echo "------------------------------------------------"
-    echo "Scan complete. Review the results for changes needed before upgrading to Java 21."
+    write_to_log "------------------------------------------------"
+    write_to_log "Identifying any JARs that might need module migration..."
+    for f in $(find "$PROJECT_DIR" -name "*.jar" -exec jdeps {} \;);
+    do
+        write_to_log $f
+    done
+    write_to_log "------------------------------------------------"
+    write_to_log "Scan complete. Review the results for changes needed before upgrading to Java 21."
 }
 
 run_all_checks(){
     PROJECT_DIR=$1
+    BUILD_TOOL=$2
     parse_project_dir "${PROJECT_DIR}"
     write_to_log "Checking Project: ${PROJECT_DIR}"
     echo "Scanning Java 8 project for issues before migrating to Java 21..." 
-    find_deprecated "${PROJECT_DIR}"
-    find_javax "${PROJECT_DIR}"
-    find_api_internal "${PROJECT_DIR}"
-    find_reflectives "${PROJECT_DIR}"
+    # find_deprecated "${PROJECT_DIR}"
+    # find_javax "${PROJECT_DIR}"
+    # find_api_internal "${PROJECT_DIR}"
+    # find_reflectives "${PROJECT_DIR}"
     find_refactor_candidates "${PROJECT_DIR}"
-    list_project_dependencies "${PROJECT_DIR}"
+    # Apply when build tool is set
+    if [ -n "${BUILD_TOOL}" ];
+    then
+        list_project_dependencies "${PROJECT_DIR}"
+    fi
     find_jars "${PROJECT_DIR}"
     exit 0
 }
@@ -191,7 +194,7 @@ done
 
 case $_action in
     rc|run-checks)
-    run_all_checks ${_project_dir}
+    run_all_checks "${_project_dir}" "${_build_tool}"
     ;;
     *) error "Invalid or unable to execute parameter $_action";;
 esac
