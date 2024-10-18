@@ -135,6 +135,7 @@ find_jars(){
     write_to_log "Identifying any JARs that might need module migration..."
     if [ -n "$(find $PROJECT_DIR -name "*.jar" -exec jdeps {} \;)" ];
     then
+        echo "Identifying any JARs that might need module migration..." | tee -a $refactor
         find $PROJECT_DIR -name "*.jar" -exec jdeps {} \; | tee -a $refactor
     fi
 
