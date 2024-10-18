@@ -202,5 +202,3 @@ Upgrading from Java 8 to Java 21 involves a significant leap, as many new featur
 
 8. **Tooling**:
    - [ ] Upgrade build tools (Maven/Gradle) and IDE to support Java 21.
-
-This checklist will helps to systematically refactor your code to be compatible with Java 21.
