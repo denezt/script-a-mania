@@ -189,7 +189,7 @@ run_all_checks(){
 }
 
 usage(){
-    printf "\033[35m$0\t\033[32m--action=run-checks --dir=/my/java/project\033[0m\n"
+    printf "\033[35m$0 \033[32m--action=run-checks --dir=/my/java/project\033[0m\n"
 }
 
 build_tool(){
