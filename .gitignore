@@ -16,3 +16,8 @@ container/ex1/linux-os.tar
 
 # Configuration files
 **/config.ini
+
+# Locally generated files for archiver tool
+archives/**
+logs/**
+errors/**
