@@ -122,7 +122,7 @@ create_swapfile(){
 
 		# Create Swap File
 		logger "Creating, swap file"
-		sudo dd if=/dev/zero of=${swapfile_path} bs=1024 count=$(echo "${swap_size} * 1024000" | bc)
+		sudo dd if=/dev/zero of=${swapfile_path} bs=1024 count=$(echo "${swap_size} * 102400" | bc)
 		sudo chmod 600 ${swapfile_path}
 		# Make it to swap format and activate on your system
 		sudo mkswap ${swapfile_path}
