@@ -122,7 +122,7 @@ create_swapfile(){
 
 		# Create Swap File
 		logger "Creating, swap file"
-		sudo dd if=/dev/zero of=${swapfile_path} bs=1024 count=$(echo "${swap_size} * 102400" | bc)
+		sudo dd if=/dev/zero of=${swapfile_path} bs=1M count=$(echo "${swap_size} * 1024" | bc)
 		sudo chmod 600 ${swapfile_path}
 		# Make it to swap format and activate on your system
 		sudo mkswap ${swapfile_path}
@@ -163,15 +163,23 @@ create_swapfile(){
 	fi
 }
 
+help_menu(){
+	printf "\033[36mSWAPFILE Manager\033[0m\n"
+	printf "\033[35mModify Configuration\033[0m\t\033[32m[ --modify, --create-config ]\033[0m\n"
+	printf "\033[35mCreate Swapfile\033[0m\t\t\033[32m[ --create, --create-swap ]\033[0m\n"
+	exit 0;
+}
 
 for argv in $@
 do
 	case $argv in
+		-h|--help|help) help_menu;;
 		--modify|--create-config) _modify_config='true';;
 		--create|--create-swap) _create_swap='true';;
 		*) error "Missing or invalid parameter was given";;
 	esac
 done
 
+# Execute commands
 [ "${_modify_config}" = 'true' ] && modify_settings
 [ "${_create_swap}" = 'true' ] && create_swapfile

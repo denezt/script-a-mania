@@ -2,7 +2,8 @@
 dir={MAIN_DIR}
 # Set without leading '/'
 swapfile={SWAPFILE_NAME}
-# Recommend: Size set as 1G, 2G or {N}G
+# Size is in Gigabytes
+# No 'G' for units, only an integer
 swap_size={SIZE_OF_SWAP}
 # Recommend: Set from 10 to 70
 swappiness={SWAP_RATE}
