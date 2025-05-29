@@ -106,7 +106,7 @@ dd if=/home/tecmint/linux-1.0.1-i386.iso of=/dev/sdc1 bs=512M; sync
 diff file1.txt file2.txt
 # Retrieving hardware information of any Linux system
 dmidecode --type system
-# Calculates an expression 
+# Calculates an expression
 expr 10 + 20 + 30
 #Shows the prime factors of a number
 factor 10
@@ -426,6 +426,15 @@ ip -s -s neigh flush all
 
 # Remove trailing spaces from file
 sed -i 's/[ \t]*$//' [FILENAME]
+
+# Get a list of all files on the system greater than 1GB
+files=$(find / -type f -size +1073741824 -name "*")
+
+# Write the file names to a log file
+echo "$files" > logs/file_list.log
+
+# Get all alive or active host in IP Address range.
+fping -q -a -g 192.168.2.0/24
 
 ##### Script Stops #####
 
