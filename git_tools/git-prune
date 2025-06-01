@@ -1,0 +1,71 @@
+#!/bin/bash
+
+error(){
+	printf "\033[35mError:\t\033[31m${1}!\033[0m\n"
+	exit 1
+}
+
+prune_branches(){
+	# Exit if not in git repository
+	[ -z "$(git status 2> /dev/null)" ] && error "No git repository was found"
+	# define primary
+	_primary=$1
+	# If primary not set use default: 'main'
+	[ -z "${_primary}" ] && _primary='main'
+	_merged=($(git branch --no-contains ${_primary} --merged ${_primary} | tr -d ' '))
+	if [ -n "${_merged[*]}" ];
+	then
+		for zombie_branch in ${_merged[*]}
+		do
+			if [ -n "$(git branch | grep ${zombie_branch})" ];
+			then
+				printf "Branch ${zombie_branch} was merged with main...\n"
+				printf "\033[36mRemoving Zombie Branch...\033[0m\n"
+				read -p "Are you sure? [(y)es|(n)o] " _confirm
+				case $_confirm in
+					y|yes) echo "${zombie_branch}" | xargs git branch -d && \
+					printf "\033[32mZombie Branch ${zombie_branch} was eliminated!!!\033[0m\n"
+					;;
+					*) printf "\033[31mZombie Branch was not eliminated.\033[34m:-/\033[0m\n";;
+				esac
+			fi
+		done
+	else
+		printf "\033[34mNo remote merges were found\033[0m\n"
+		printf "\033[32mHappy Coding!!!\033[35m:-)\033[0m\n"
+	fi
+}
+
+usage(){
+	progname=$(basename $0)
+	printf "\033[36mUSAGE:\033[0m\n"
+	printf "\033[34mUse default primary branch name 'main'\033[0m\n"
+	printf "\033[35m${progname} \033[32m--exec\033[0m\n"
+	printf "\033[34mDefine primary branch name as 'master'\033[0m\n"
+	printf "\033[35m${progname} \033[32m--exec --primary=master\033[0m\n"
+}
+
+
+help_menu(){
+	printf "\033[36mGIT Prune Enabler\033[0m\n"
+	printf "\033[35mDefine Primary Branch\t\033[32m[ primary:BRANCH_NAME, --primary=BRANCH_NAME ]\033[0m\n"
+	printf "\033[35mExecute Prune\t\t\033[32m[ -e, -x, --exec ]\033[0m\n"
+	printf "\n"
+	usage
+	exit 0
+}
+
+for argv in $@
+do
+	case $argv in
+		primary:*|--primary=*) _primary=$(echo $argv | cut -d':' -f2 | cut -d'=' -f2);;
+		-e|-x|--exec) _exec='prune-local-branches';;
+		-h|-help|--help) help_menu;;
+		*) error "Parameter '"${argv}"' is not valid"
+	esac
+done
+
+case $_exec in
+	'prune-local-branches') prune_branches "${_primary}";;
+esac
+
