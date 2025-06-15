@@ -119,10 +119,12 @@ create_swapfile(){
 		swapfile_path="${dir}/${swapfile}"
 		# Check Current Swap
 		sudo swapon -s
+		[ -z "$swap_size" ] && swap_size=1
+		_swap_size=$(printf $swap_size | sed "s|[A-Za-z]||g")
 
 		# Create Swap File
 		logger "Creating, swap file"
-		sudo dd if=/dev/zero of=${swapfile_path} bs=1M count=$(echo "${swap_size} * 1024" | bc)
+		sudo dd if=/dev/zero of=${swapfile_path} bs=1M count=$(echo "${_swap_size} * 1024" | bc)
 		sudo chmod 600 ${swapfile_path}
 		# Make it to swap format and activate on your system
 		sudo mkswap ${swapfile_path}
