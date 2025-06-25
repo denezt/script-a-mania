@@ -436,6 +436,16 @@ echo "$files" > logs/file_list.log
 # Get all alive or active host in IP Address range.
 fping -q -a -g 192.168.2.0/24
 
+# 7zip Examples
+sudo apt install p7zip
+# -t7z - Specifies the archive type as 7z (the native format for 7-Zip).
+# -m0=lzma2 - Sets the compression method to LZMA2 (an improved version of LZMA, offering better multithreading and slightly better compression in some cases).
+# -mx=9 - Sets the compression level to the maximum (9 = ultra compression). (Range: 0 = store, 1 = fastest, ..., 9 = slowest but best compression.)
+# -mfb=64 - Sets the number of "fast bytes" for LZMA to 64. (Higher values can improve compression ratio but slow down speed. Range: typically 5–273.)
+# -md=256m - Sets the dictionary size to 256 MB. (Larger dictionaries improve compression, especially for large files, but require more RAM.)
+# -ms=on - Enables solid mode, where all files are compressed as a single block. (Improves compression ratio but makes extracting individual files slower.)
+7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=256m -ms=on {ARCHIVE_NAME}.7z {SOURCE_NAME}
+
 ##### Script Stops #####
 
 ##################
