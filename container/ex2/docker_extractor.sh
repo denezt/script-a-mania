@@ -7,12 +7,5 @@ set -eux # let's be safe
 # Download the container (it's in a github gist published by my github account)
 # This is just the frapsoft/fish Fish Docker container flattened into a single tarball
 # You can also easily make your own tarball to run instead of this one  with `docker export`
-
-linux_dist='alpine'
-os_type='minirootfs'
-linux_version='3.23.2'
-arch='x86_64'
-# alpine-minirootfs-3.23.2-x86_64.tar.gz
-filename="${linux_dist}-${os_type}-${linux_version}-${arch}.tar.gz"
-# download the linux os tarball if we don't have it already
-wget https://cyberican.com/os/alpine/minirootfs/v3.23.2/x86_64/${filename} -O ${filename}
+docker pull frapsoft/fish:latest
+docker export frapsoft/fish:latest -o fish.tar
