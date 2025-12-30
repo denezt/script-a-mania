@@ -126,12 +126,20 @@ find /DIRNAME -type f -name "*.FILEEXT" -exec rm -f {} \;
 ## Delete files larger than 100MB
 find /DIR/SUBDIR -type f -name *.log -size +100M -exec rm -f {} \;
 
+# Example Script: Find all directories in root and list their sizes
+# Define an array to store directories instead of parsing output
+REGEXP="media|mnt|tmp|srv|sys|var|proc|run|dev|lost+found"
+declare -a dirs=( $(sudo find /* -maxdepth 0 -type d | grep -vE "${REGEXP}") )
+
+# Process each directory in the array
+for dir in "${dirs[@]}"; do
+    # Print colored text for directory header
+    printf "\033[36m%s\033[34m\n\t" "$dir"
+    
+    # Suppress du error messages and only show file sizes in a column
+    sudo du -sh "$dir" 2>/dev/null | while IFS= read -r -r size; do
+        echo " $size "
+    done
+done
 
 ##### END OF SCRIPT #####
-
-
-
-
-
-
-

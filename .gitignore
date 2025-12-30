@@ -12,7 +12,7 @@ tmp/**
 
 # build files
 container/ex1/container-root
-container/ex1/linux-os.tar
+container/ex1/*.tar.gz
 
 # Configuration files
 **/config.ini
