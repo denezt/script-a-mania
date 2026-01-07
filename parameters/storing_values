@@ -5,6 +5,10 @@ error(){
 	exit 1
 }
 
+help() {
+    echo "Usage: $0 [-n <nation>] [-c <code>]"
+}
+
 while getopts n:c: option
 do
 	case "${option}" in
