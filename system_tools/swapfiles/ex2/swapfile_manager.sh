@@ -109,13 +109,31 @@ modify_settings(){
 	define_settings
 }
 
+mount_swapfile(){
+	source "${config}"
+	sudo swapon --show
+	if [ -e "${swapfile_path}" ];
+	then
+		sudo chmod 600 ${swapfile_path}
+                # Make it to swap format and activate on your system
+                sudo mkswap ${swapfile_path}
+                sudo swapon ${swapfile_path}
+                logger "Successfully, created swap file ${swapfile_path}"
+	else
+		error "Missing or unable to find ${swapfile_path}"
+	fi
+}
+
+remount_swapfile(){
+	mount_swapfile
+}
+
 create_swapfile(){
 	if [ -e "$config" ];
 	then
 		source $config
 		logger "Creating, swapfile with settings:\n"
 		cat "${config}"
-
 		swapfile_path="${dir}/${swapfile}"
 		# Check Current Swap
 		sudo swapon -s
@@ -125,10 +143,9 @@ create_swapfile(){
 		# Create Swap File
 		logger "Creating, swap file"
 		sudo dd if=/dev/zero of=${swapfile_path} bs=1M count=$(echo "${_swap_size} * 1024" | bc)
-		sudo chmod 600 ${swapfile_path}
+
 		# Make it to swap format and activate on your system
-		sudo mkswap ${swapfile_path}
-		sudo swapon ${swapfile_path}
+		mount_swapfile ${swapfile_path}
 		logger "Successfully, created swap file ${swapfile_path}"
 
 		# Make Swap Permanent
@@ -178,6 +195,7 @@ do
 		-h|--help|help) help_menu;;
 		--modify|--create-config) _modify_config='true';;
 		--create|--create-swap) _create_swap='true';;
+		remount|--remount) _remount_swap='true';;
 		*) error "Missing or invalid parameter was given";;
 	esac
 done
@@ -185,3 +203,4 @@ done
 # Execute commands
 [ "${_modify_config}" = 'true' ] && modify_settings
 [ "${_create_swap}" = 'true' ] && create_swapfile
+[ "${_remount_swap}" = 'true' ] && remount_swapfile
