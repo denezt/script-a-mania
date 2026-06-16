@@ -21,3 +21,4 @@ container/ex1/*.tar.gz
 archives/**
 logs/**
 errors/**
+*.7z

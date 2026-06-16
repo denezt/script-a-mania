@@ -1,0 +1,142 @@
+groups:
+  - name: basic-alerts
+    rules:
+      - alert: InstanceDown
+        expr: up{job="node"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Server is down"
+          description: "Prometheus cannot scrape {{ $labels.instance }} for 2 minutes."
+
+      - alert: HighCPU
+        expr: (1 - avg by(instance)(rate(node_cpu_seconds_total{mode="idle"}[1m]))) > 0.90
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage > 90% for 1m on {{ $labels.instance }}."
+
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) > 0.45
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage > 45% for 1m on {{ $labels.instance }}."
+
+      - alert: SwapUsageDetected
+        expr: node_memory_SwapUsed_bytes > 100
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Swap usage detected"
+          description: "Swap is being used on {{ $labels.instance }}."
+
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_avail_bytes / node_filesystem_size_bytes) < 0.15
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low disk space"
+          description: "Disk space < 15% on {{ $labels.instance }} ({{ $labels.mountpoint }})."
+
+      - alert: DiskInodeLow
+        expr: (node_filesystem_files_free / node_filesystem_files) < 0.10
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low inode availability"
+          description: "Inodes < 10% on {{ $labels.instance }} ({{ $labels.mountpoint }})."
+
+      - alert: DiskIOLatencyHigh
+        expr: rate(node_disk_io_time_seconds_total[5m]) > 0.5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High disk I/O latency"
+          description: "Disk I/O wait is high on {{ $labels.instance }} ({{ $labels.device }})."
+
+      - alert: NetworkErrors
+        expr: rate(node_network_receive_errs_total[5m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Network receive errors"
+          description: "Network errors detected on {{ $labels.instance }} ({{ $labels.device }})."
+
+      - alert: HighSystemLoad
+        expr: node_load1 > count by(instance)(node_cpu_seconds_total{mode="idle"})
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High system load"
+          description: "Load average exceeds CPU core count on {{ $labels.instance }}."
+
+      - alert: FileDescriptorUsageHigh
+        expr: (node_filefd_allocated / node_filefd_maximum) > 0.80
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High file descriptor usage"
+          description: "File descriptor usage > 80% on {{ $labels.instance }}."
+
+      # GPU Utilization Too High
+      - alert: GPUHighUtilization
+        expr: avg by (instance, gpu) (DCGM_FI_DEV_GPU_UTIL) > 95
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "GPU utilization very high"
+          description: "GPU {{ $labels.gpu }} on {{ $labels.instance }} is > 95% for 5m."
+      
+      # GPU Memory Pressure
+      - alert: GPUHighMemoryUsage
+        expr: (DCGM_FI_DEV_FB_USED / DCGM_FI_DEV_FB_TOTAL) > 0.49
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "GPU memory usage high"
+          description: "GPU memory usage > 90% on {{ $labels.instance }} (GPU {{ $labels.gpu }})."
+
+      # GPU Temperature Too High
+      - alert: GPUTemperatureHigh
+        expr: DCGM_FI_DEV_GPU_TEMP > 85
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "GPU overheating"
+          description: "GPU {{ $labels.gpu }} temperature > 85°C on {{ $labels.instance }}."
+
+      # GPU Power Limit Throttling
+      - alert: GPUPowerThrottling
+        expr: DCGM_FI_DEV_POWER_LIMITED > 0
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "GPU power throttling detected"
+          description: "GPU {{ $labels.gpu }} is being power limited on {{ $labels.instance }}."
+
+      # GPU ECC Errors (hardware reliability signal)
+      - alert: GPUECCErrorsDetected
+        expr: increase(DCGM_FI_DEV_ECC_DBE_VOL_TOTAL[5m]) > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "GPU ECC errors detected"
+          description: "ECC double-bit errors detected on {{ $labels.instance }} (GPU {{ $labels.gpu }})."

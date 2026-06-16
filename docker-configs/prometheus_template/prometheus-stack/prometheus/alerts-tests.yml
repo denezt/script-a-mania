@@ -1,0 +1,47 @@
+groups:
+  - name: basic-alerts
+    rules:
+      - alert: InstanceDown
+        expr: up{job="node"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Server is down"
+          description: "Prometheus cannot scrape {{ $labels.instance }} for 1 minutes."
+
+      - alert: HighCPU
+        expr: (1 - avg by(instance)(rate(node_cpu_seconds_total{mode="idle"}[1m]))) > 0.40
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage > 90% for 1m on {{ $labels.instance }}."
+
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) > 0.90
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage > 90% for 1m on {{ $labels.instance }}."
+
+      - alert: SwapUsageDetected
+        expr: node_memory_SwapUsed_bytes > 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Swap usage detected"
+          description: "Swap is being used on {{ $labels.instance }}."
+    
+      - alert: HighGPUUsage
+        expr: nvidia_gpu_utilization > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High GPU usage"
+          description: "GPU usage > 80% for 5m on {{ $labels.instance }}."

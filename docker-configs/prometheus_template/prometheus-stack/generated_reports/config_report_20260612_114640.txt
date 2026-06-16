@@ -1,0 +1,16 @@
+========================================================
+CONSOLIDATED CONFIGURATION REPORT
+Generated On: 2026-06-12 11:46:40
+Source Directory Scanned: /home/mk8s/Workspace/development/programming/docker/prometheus_template/prometheus-stack
+========================================================
+
+Found 4 Configuration Files:
+--------------------------------------------------
+FILE FOUND: ./prometheus/alerts.yml
+--------------------
+FILE FOUND: ./prometheus/prometheus.yml
+--------------------
+FILE FOUND: ./prometheus/alerts-tests.yml
+--------------------
+FILE FOUND: ./alertmanager/alertmanager.yml
+--------------------
